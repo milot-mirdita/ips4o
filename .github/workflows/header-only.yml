@@ -1,9 +1,7 @@
 name: push-to-header-only
-
 on:
   schedule:
     - cron: "0 0 * * *"
-
 jobs:
   no-tests:
     runs-on: ubuntu-latest
