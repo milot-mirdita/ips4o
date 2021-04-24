@@ -1,0 +1,27 @@
+name: push-to-header-only
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  no-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+      - name: Filter Repository
+        run: |
+          pip install git-filter-repo
+          git remote add source https://github.com/ips4o/ips4o.git
+          git fetch source master:ips4o
+          git checkout ips4o
+          git-filter-repo --refs ips4o --force --path-rename README.md:include/README.md
+          git-filter-repo --refs ips4o --force --path-rename LICENSE:include/LICENSE
+          git-filter-repo --refs ips4o --subdirectory-filter include
+          git merge gh-actions --allow-unrelated-histories
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: master
+          force: true
