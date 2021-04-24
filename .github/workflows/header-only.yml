@@ -20,6 +20,8 @@ jobs:
           git-filter-repo --refs ips4o --force --path-rename README.md:include/README.md
           git-filter-repo --refs ips4o --force --path-rename LICENSE:include/LICENSE
           git-filter-repo --refs ips4o --subdirectory-filter include
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git merge gh-actions --allow-unrelated-histories
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
